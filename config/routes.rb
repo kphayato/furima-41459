@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  root to: 'items#index'  # ルートパスを items#index に設定
+  root "items#index"
 end
