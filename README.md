@@ -12,6 +12,12 @@
 | birth_date           | date    | null: false               |
 | customer_id          | string  | unique: true              |
 
+# Association
+
+•	has_many :items
+•	has_many :orders
+
+
 ### items テーブル
 
 | Column               | Type       | Options                        |
@@ -27,6 +33,12 @@
 | shopping_days        | string     | null: false                    |
 | user                 | references | null: false, foreign_key: true |
 
+# Association
+
+•	belongs_to :user
+•	has_many :orders
+
+
 ### orders テーブル
 
 | Column               | Type       | Options                        |
@@ -40,3 +52,7 @@
 | address_line1        | string     | null: false                    |
 | address_line2        | string     |                                |
 | phone_number         | string     | null: false                    |
+
+# Association
+•	belongs_to :user
+•	belongs_to :item
