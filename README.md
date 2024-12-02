@@ -1,24 +1,42 @@
-# README
+### users テーブル
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+| Column               | Type    | Options                   |
+|----------------------|---------|---------------------------|
+| nickname             | string  | null: false               |
+| email                | string  | null: false, unique: true |
+| encrypted_password   | string  | null: false               |
+| last_name            | string  | null: false               |
+| first_name           | string  | null: false               |
+| last_name_kana       | string  | null: false               |
+| first_name_kana      | string  | null: false               |
+| birth_date           | date    | null: false               |
+| customer_id          | string  | unique: true              |
 
-Things you may want to cover:
+### items テーブル
 
-* Ruby version
+| Column               | Type       | Options                        |
+|----------------------|------------|--------------------------------|
+| name                 | string     | null: false                    |
+| price                | integer    | null: false                    |
+| category             | string     | null: false                    |
+| image                | string     |                                |
+| shopping_area        | string     | null: false                    |
+| condition            | string     | null: false                    |
+| stock_status         | string     | null: false                    |
+| shopping_fee_status  | string     | null: false                    |
+| shopping_days        | string     | null: false                    |
+| user                 | references | null: false, foreign_key: true |
 
-* System dependencies
+### orders テーブル
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+| Column               | Type       | Options                        |
+|----------------------|------------|------------------------------- |
+| charge_id            | string     |                                |
+| user                 | references | null: false, foreign_key: true |
+| item                 | references | null: false, foreign_key: true |
+| total_price          | integer    |                                |
+| prefecture           | integer    | null: false                    |
+| city                 | string     | null: false                    |
+| address_line1        | string     | null: false                    |
+| address_line2        | string     |                                |
+| phone_number         | string     | null: false                    |
