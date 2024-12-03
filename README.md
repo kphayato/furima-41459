@@ -10,7 +10,6 @@
 | last_name_kana       | string  | null: false               |
 | first_name_kana      | string  | null: false               |
 | birth_date           | date    | null: false               |
-| customer_id          | string  | unique: true              |
 
 # Association
 
@@ -47,12 +46,23 @@
 | user                 | references | null: false, foreign_key: true |
 | item                 | references | null: false, foreign_key: true |
 | total_price          | integer    |                                |
-| prefecture           | integer    | null: false                    |
-| city                 | string     | null: false                    |
-| address_line1        | string     | null: false                    |
-| address_line2        | string     |                                |
-| phone_number         | string     | null: false                    |
 
 # Association
 •	belongs_to :user
 •	belongs_to :item
+
+
+### addresses テーブル
+
+| Column        | Type       | Options                        |
+|-------------- | ---------- | ------------------------------ |
+| postal_code   | string     | null: false                    |
+| prefecture_id | integer    | null: false                    |
+| city          | string     | null: false                    |
+| address_line1 | string     | null: false                    |
+| address_line2 | string     |                                |
+| phone_number  | string     | null: false                    |
+| order         | references | null: false , foreign_key:true |
+
+# Association
+・belongs_to :order
