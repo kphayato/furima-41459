@@ -19,37 +19,36 @@
 
 ### items テーブル
 
-| Column               | Type       | Options                        |
-|----------------------|------------|--------------------------------|
-| name                 | string     | null: false                    |
-| price                | integer    | null: false                    |
-| category             | string     | null: false                    |
-| image                | string     |                                |
-| shopping_area        | string     | null: false                    |
-| condition            | string     | null: false                    |
-| stock_status         | string     | null: false                    |
-| shopping_fee_status  | string     | null: false                    |
-| shopping_days        | string     | null: false                    |
-| user                 | references | null: false, foreign_key: true |
+| Column                 | Type       | Options                        |
+|----------------------  |------------|--------------------------------|
+| name                   | string     | null: false                    |
+| price                  | integer    | null: false                    |
+| category_id            | integer     | null: false                   |
+| shopping_area_id       | integer    | null: false                    |
+| condition_id           | integer     | null: false                   |
+| stock_status_id        | integer     | null: false                   |
+| shopping_fee_status_id | integer     | null: false                   |
+| shopping_day_id        | integer     | null: false                   |
+| user                   | references | null: false, foreign_key: true |
 
 # Association
 
 •	belongs_to :user
-•	has_many :orders
+•	has_one :order
 
 
 ### orders テーブル
 
 | Column               | Type       | Options                        |
 |----------------------|------------|------------------------------- |
-| charge_id            | string     |                                |
 | user                 | references | null: false, foreign_key: true |
 | item                 | references | null: false, foreign_key: true |
-| total_price          | integer    |                                |
 
 # Association
 •	belongs_to :user
 •	belongs_to :item
+•	has_one :address
+
 
 
 ### addresses テーブル
