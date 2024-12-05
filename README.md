@@ -22,13 +22,13 @@
 | Column                 | Type       | Options                        |
 |----------------------  |------------|--------------------------------|
 | name                   | string     | null: false                    |
+| description            | text       | null: false                    |
 | price                  | integer    | null: false                    |
-| category_id            | integer     | null: false                   |
+| category_id            | integer    | null: false                    |
 | shopping_area_id       | integer    | null: false                    |
-| condition_id           | integer     | null: false                   |
-| stock_status_id        | integer     | null: false                   |
-| shopping_fee_status_id | integer     | null: false                   |
-| shopping_day_id        | integer     | null: false                   |
+| condition_id           | integer    | null: false                    |
+| shopping_fee_status_id | integer    | null: false                    |
+| shopping_day_id        | integer    | null: false                    |
 | user                   | references | null: false, foreign_key: true |
 
 # Association
