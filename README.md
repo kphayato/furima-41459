@@ -53,15 +53,15 @@
 
 ### addresses テーブル
 
-| Column        | Type       | Options                        |
-|-------------- | ---------- | ------------------------------ |
-| postal_code   | string     | null: false                    |
-| prefecture_id | integer    | null: false                    |
-| city          | string     | null: false                    |
-| address_line1 | string     | null: false                    |
-| address_line2 | string     |                                |
-| phone_number  | string     | null: false                    |
-| order         | references | null: false , foreign_key:true |
+| Column           | Type       | Options                        |
+|--------------    | ---------- | ------------------------------ |
+| postal_code      | string     | null: false                    |
+| shopping_area_id | integer    | null: false                    |
+| city             | string     | null: false                    |
+| street_address   | string     | null: false                    |
+| building_name    | string     |                                |
+| phone_number     | string     | null: false                    |
+| order            | references | null: false , foreign_key:true |
 
 # Association
 ・belongs_to :order
