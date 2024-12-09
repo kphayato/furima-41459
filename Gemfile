@@ -7,20 +7,22 @@ gem "rails", "~> 7.0.0"
 gem "sprockets-rails"
 gem "mysql2", "~> 0.5"
 gem "puma", "~> 5.0"
-gem "importmap-rails" # 重複削除済み
-gem "turbo-rails" # `require: false` を削除
-gem "stimulus-rails" # 重複削除済み
+gem "importmap-rails" # Webpackを使わない場合はこちらを利用
+gem "turbo-rails"
+gem "stimulus-rails"
 gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 gem "devise"
-gem "rails-i18n" # rails-i18nは全ての環境で必要
+
+# 日本語ロケールが不要なら削除
+# gem "rails-i18n"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "rspec-rails"
   gem "factory_bot_rails"
-  gem "faker" # 重複ブロックを統合
+  gem "faker"
 end
 
 group :development do
