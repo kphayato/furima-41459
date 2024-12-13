@@ -19,18 +19,18 @@ const price = () => {
 
         // 販売手数料と利益をHTMLに反映
         if (addTaxDom) {
-          addTaxDom.innerHTML = `${tax}`; // 販売手数料に円を追加
+          addTaxDom.innerHTML = `${tax}円`; // 販売手数料に円を追加
         }
         if (profitDom) {
-          profitDom.innerHTML = `${profit}`; // 販売利益に円を追加
+          profitDom.innerHTML = `${profit}円`; // 販売利益に円を追加
         }
       } else {
         // 無効な入力値の場合は初期化
         if (addTaxDom) {
-          addTaxDom.innerHTML = "0"; // 無効な場合0円を表示
+          addTaxDom.innerHTML = "0円"; // 無効な場合0円を表示
         }
         if (profitDom) {
-          profitDom.innerHTML = "0"; // 無効な場合0円を表示
+          profitDom.innerHTML = "0円"; // 無効な場合0円を表示
         }
       }
     });
