@@ -31,13 +31,13 @@ RSpec.describe User, type: :model do
         @user.save
         another_user = FactoryBot.build(:user, email: @user.email)
         another_user.valid?
-        expect(another_user.errors.full_messages).to include("Email has already been taken")
+        expect(another_user.errors.full_messages).to include('Email has already been taken')
       end
 
       it 'メールアドレスに@を含まない場合は登録できない' do
         @user.email = 'testexample.com'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Email is invalid")
+        expect(@user.errors.full_messages).to include('Email is invalid')
       end
 
       ## password
@@ -58,21 +58,21 @@ RSpec.describe User, type: :model do
         @user.password = 'abcdef'
         @user.password_confirmation = 'abcdef'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password must include both letters and numbers")
+        expect(@user.errors.full_messages).to include('Password must include both letters and numbers')
       end
 
       it '数字のみのパスワードでは登録できない' do
         @user.password = '123456'
         @user.password_confirmation = '123456'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password must include both letters and numbers")
+        expect(@user.errors.full_messages).to include('Password must include both letters and numbers')
       end
 
       it '全角文字を含むパスワードでは登録できない' do
         @user.password = 'ａｂｃ123'
         @user.password_confirmation = 'ａｂｃ123'
         @user.valid?
-        expect(@user.errors.full_messages).to include("Password must include both letters and numbers")
+        expect(@user.errors.full_messages).to include('Password must include both letters and numbers')
       end
 
       it 'パスワードとパスワード（確認用）が不一致だと登録できない' do
