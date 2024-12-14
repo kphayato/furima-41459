@@ -26,7 +26,8 @@ class Item < ApplicationRecord
             numericality: { other_than: 1, message: "can't be blank" }
 
   # sold_out? メソッドを仮で追加
+  # 例: 売却済みの商品は価格がゼロの場合
   def sold_out?
-    false # 一時的に仮で無効化
+    self.price == 0
   end
 end
