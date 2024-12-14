@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Item, type: :model do
   before do
-    @user = FactoryBot.create(:user)  # ユーザーを作成
-    @item = FactoryBot.build(:item, user: @user)  # アイテムにユーザーを紐づけて作成
+    @item = FactoryBot.build(:item )
   end
 
   describe '商品出品' do
