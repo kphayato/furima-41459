@@ -28,6 +28,6 @@ class Item < ApplicationRecord
   # sold_out? メソッドを仮で追加
   # 例: 売却済みの商品は価格がゼロの場合
   def sold_out?
-    self.price == 0
+    price.zero?
   end
 end
