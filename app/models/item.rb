@@ -1,6 +1,7 @@
 class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image
+  has_many :favorites
 
   # ActiveHash関連
   extend ActiveHash::Associations::ActiveRecordExtensions
@@ -27,6 +28,6 @@ class Item < ApplicationRecord
 
   # sold_out? メソッドを仮で追加
   def sold_out?
-    false # 一時的に仮で無効化
+    false
   end
 end

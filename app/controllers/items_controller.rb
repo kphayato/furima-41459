@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create, ]
 
   def new
     @item = Item.new
@@ -10,7 +10,7 @@ class ItemsController < ApplicationController
     if @item.save
       redirect_to root_path, notice: '商品が出品されました。'
     else
-      render :new # 再レンダリングでエラーメッセージを表示
+      render :new 
     end
   end
 
@@ -18,9 +18,12 @@ class ItemsController < ApplicationController
      @items = Item.all
    end
 
-  # def show
-    # @items = Item.find(params[:id])
-  # end
+   def show
+    @item = Item.find_by(id: params[:id]) # find_byを使ってnilを返すようにする
+    if @item.nil?
+      redirect_to root_path, alert: "商品が見つかりませんでした"
+    end
+  end
 
   private
 
