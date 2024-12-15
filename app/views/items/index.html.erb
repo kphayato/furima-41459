@@ -1,6 +1,5 @@
 <%= render "shared/header" %>
 <div class='main'>
-
   <%# 画面上部の「人生を変えるフリマアプリ」帯部分 %>
   <div class='title-contents'>
     <h2 class='service-title'>
@@ -17,7 +16,7 @@
       <%= link_to image_tag("google-play.png", class:"google-btn"), "#" %>
     </div>
   </div>
-  <%# /画面上部の「人生を変えるフリマアプリ」帯部分  %>
+  <%# /画面上部の「人生を変えるフリマアプリ」帯部分 %>
 
   <%# 商品一覧 %>
   <div class='item-contents'>
@@ -26,9 +25,8 @@
       新規投稿商品
     </div>
     <ul class='item-lists'>
-      <%# 以下の商品一覧のループ部分はコメントアウト %>
-      <%# if @items.present? %>
-        <%# @items.each do |item| %>
+      <% if @items.present? %> 
+        <% @items.each do |item| %> 
           <li class='list'>
             <%= link_to item_path(item) do %>
               <div class='item-img-content'>
@@ -51,10 +49,10 @@
                   </div>
                 </div>
               </div>
-            <% end %> <!-- このendはlink_toブロックの終了 -->
+            <% end %>
           </li>
         <% end %>
-      <%# else %>
+      <% else %>
         <li class='list'>
           <%= link_to '#' do %>
             <%= image_tag "https://tech-master.s3.amazonaws.com/uploads/curriculums/images/Rails1-4/sample.jpg", class: "item-img" %>
@@ -70,13 +68,12 @@
                 </div>
               </div>
             </div>
-          <% end %> <!-- このendはlink_toブロックの終了 -->
+          <% end %>
         </li>
-      <%# end %>
+      <% end %>
     </ul>
   </div>
   <%# /商品一覧 %>
-
 </div>
 
 <%= link_to new_item_path, class: 'purchase-btn' do %>

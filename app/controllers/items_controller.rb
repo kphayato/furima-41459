@@ -14,9 +14,9 @@ class ItemsController < ApplicationController
     end
   end
 
-  # def index
-    # @items = Item.all
-  # end
+   def index
+     @items = Item.all
+   end
 
   # def show
     # @items = Item.find(params[:id])
