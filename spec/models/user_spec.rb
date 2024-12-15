@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe User, type: :model do
   before do
     @user = FactoryBot.build(:user)
@@ -105,7 +107,7 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include('First name must be in full-width characters (kanji, hiragana, or katakana)')
       end
 
-      ## 姓・名（カナ）
+      ## 姓・名（カナ） - 異常系
       it '姓（カナ）が空だと登録できない' do
         @user.last_name_kana = ''
         @user.valid?
@@ -114,6 +116,24 @@ RSpec.describe User, type: :model do
 
       it '姓（カナ）にカタカナ以外の文字（平仮名）が含まれていると登録できない' do
         @user.last_name_kana = 'やまだ'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Last name kana must be in full-width katakana characters')
+      end
+
+      it '姓（カナ）にカタカナ以外の文字（漢字）が含まれていると登録できない' do
+        @user.last_name_kana = '山田'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Last name kana must be in full-width katakana characters')
+      end
+
+      it '姓（カナ）にカタカナ以外の文字（英数字）が含まれていると登録できない' do
+        @user.last_name_kana = 'Yamada'
+        @user.valid?
+        expect(@user.errors.full_messages).to include('Last name kana must be in full-width katakana characters')
+      end
+
+      it '姓（カナ）にカタカナ以外の文字（記号）が含まれていると登録できない' do
+        @user.last_name_kana = 'ヤマダ@'
         @user.valid?
         expect(@user.errors.full_messages).to include('Last name kana must be in full-width katakana characters')
       end

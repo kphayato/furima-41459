@@ -25,8 +25,8 @@
       新規投稿商品
     </div>
     <ul class='item-lists'>
-      <% if @items.present? %> <!-- コメントアウトを解除 -->
-        <% @items.each do |item| %> <!-- コメントアウトを解除 -->
+      <% if @items.present? %> 
+        <% @items.each do |item| %> 
           <li class='list'>
             <%= link_to item_path(item) do %>
               <div class='item-img-content'>
@@ -51,7 +51,7 @@
               </div>
             <% end %>
           </li>
-        <% end %> <!-- コメントアウトを解除 -->
+        <% end %>
       <% else %>
         <li class='list'>
           <%= link_to '#' do %>
