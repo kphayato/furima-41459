@@ -18,22 +18,22 @@ class ItemsController < ApplicationController
     @items = Item.order(created_at: :desc)
   end
 
-  # def show
-  #  @item = Item.find_by(id: params[:id])
+   def show
+    @item = Item.find_by(id: params[:id])
 
-  # return unless @item.nil?
+   return unless @item.nil?
 
-  #  @item = Item.new(
-  #   name: 'ダミー商品',
-  #   description: 'これはダミー商品です',
-  #   category_id: 1,
-  #   condition_id: 1,
-  #   shipping_fee_id: 1,
-  #   prefecture_id: 1,    # `_` を削除して修正
-  #   shipping_day_id: 1,
-  #   image: nil           # `imege` を `image` に修正
-  #   )
-  # end
+    @item = Item.new(
+     name: 'ダミー商品',
+     description: 'これはダミー商品です',
+     category_id: 1,
+     condition_id: 1,
+     shipping_fee_id: 1,
+     prefecture_id: 1,    
+     shipping_day_id: 1,
+     image: nil          
+     )
+   end
 
   private
 

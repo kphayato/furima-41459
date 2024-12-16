@@ -23,14 +23,15 @@
       </span>
     </div>
 
-    <% if user_signed_in? %>
-      <% if current_user == @item.user %>
-        <%= link_to "商品の編集", edit_item_path(@item), class: "item-red-btn" %>
-        <%= link_to "削除", @item, method: :delete, data: { confirm: "本当に削除しますか？" }, class: "item-destroy" %>
-      <% elsif !@item.sold_out? %>
-        <%= link_to "購入画面に進む", new_order_path(item_id: @item.id), class: "item-red-btn" %>
-      <% end %>
-    <% end %>
+    if "ログインしていれば"
+       if "現在ログインしているユーザーが商品の出品者であれば"
+        商品の編集
+        削除
+       else
+        購入画面に進む
+       end
+    end
+
 
     <div class="item-explain-box">
       <span><%= @item.description %></span>
@@ -106,9 +107,7 @@
     <% end %>
   </div>
 
-  <a href="<%= category_path(@item.category) %>" class="another-item">
-    <%= @item.category.name %>をもっと見る
-  </a>
+  <a href="#" class="another-item"><%= @item.category.name %>をもっと見る</a>
 </div>
 
 <%= render "shared/footer" %>
