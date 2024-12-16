@@ -2,6 +2,7 @@ class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image
   has_many :favorites
+  has_many :category
 
   # ActiveHash関連
   extend ActiveHash::Associations::ActiveRecordExtensions
