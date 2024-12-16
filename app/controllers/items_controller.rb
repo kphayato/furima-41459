@@ -14,16 +14,26 @@ class ItemsController < ApplicationController
     end
   end
 
-   def index
-     @items = Item.all
-   end
-
-   def show
-    @item = Item.find_by(id: params[:id]) # find_byを使ってnilを返すようにする
-    if @item.nil?
-      redirect_to root_path, alert: "商品が見つかりませんでした"
-    end
+  def index
+    @items = Item.order(created_at: :desc)
   end
+
+  # def show
+  #  @item = Item.find_by(id: params[:id])
+
+  # return unless @item.nil?
+
+  #  @item = Item.new(
+  #   name: 'ダミー商品',
+  #   description: 'これはダミー商品です',
+  #   category_id: 1,
+  #   condition_id: 1,
+  #   shipping_fee_id: 1,
+  #   prefecture_id: 1,    # `_` を削除して修正
+  #   shipping_day_id: 1,
+  #   image: nil           # `imege` を `image` に修正
+  #   )
+  # end
 
   private
 
