@@ -8,19 +8,20 @@
     </h2>
     <div class="item-img-content">
       <%= image_tag @item.image, class: "item-box-img" %>
-
       <% if @item.sold_out? %> <!-- 商品が売れている場合 -->
-
+        <div class="sold-out">
+          <span>Sold Out!!</span>
+        </div>
       <% end %>
-
-    <div class="item-price-box">
-      <span class="item-price">
-        ¥ <%= @item.price %> <!-- 商品価格 -->
-      </span>
-      <span class="item-postage">
-        <%= @item.shipping_fee.name %> <!-- 配送料の負担 -->
-      </span>
     </div>
+    <div class="item-img-content">
+    <%= image_tag @item.image, class: "item-box-img" %>
+    <%# if @item.sold_out? %>
+      <%# <div class="sold-out"> %>
+        <%# <span>Sold Out!!</span> %>
+      <%# </div> %>
+    <%# end %>
+  </div>
 
     <% if user_signed_in? %>
       <% if current_user == @item.user %>
