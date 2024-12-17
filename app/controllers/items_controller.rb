@@ -10,7 +10,7 @@ class ItemsController < ApplicationController
     if @item.save
       redirect_to root_path, notice: '商品が出品されました。'
     else
-      render :new # 再レンダリングでエラーメッセージを表示
+      render :new 
     end
   end
 
@@ -18,22 +18,9 @@ class ItemsController < ApplicationController
     @items = Item.order(created_at: :desc)
   end
 
-  # def show
-  #  @item = Item.find_by(id: params[:id])
-
-  # return unless @item.nil?
-
-  #  @item = Item.new(
-  #   name: 'ダミー商品',
-  #   description: 'これはダミー商品です',
-  #   category_id: 1,
-  #   condition_id: 1,
-  #   shipping_fee_id: 1,
-  #   prefecture_id: 1,    # `_` を削除して修正
-  #   shipping_day_id: 1,
-  #   image: nil           # `imege` を `image` に修正
-  #   )
-  # end
+   def show
+      @item = Item.find(params[:id])
+   end
 
   private
 
