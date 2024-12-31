@@ -16,20 +16,21 @@ class OrderAddressForm
     validates :token
   end
 
-  # データを保存するメソッド
   def save
-    # 購入情報 (Order) を保存
+    # 購入情報を保存
     order = Order.create(user_id: user_id, item_id: item_id)
-
-    # 発送先情報 (Address) を保存
-    Address.create(
+    puts order.errors.full_messages # エラーメッセージを確認
+  
+    # 発送先情報を保存
+    address = Address.create(
       postal_code: postal_code,
       prefecture_id: prefecture_id,
       city: city,
       street_address: street_address,
       building_name: building_name,
       phone_number: phone_number,
-      order_id: order.id  # Order と紐づけて保存
+      order_id: order.id
     )
+    puts address.errors.full_messages # エラーメッセージを確認
   end
 end
