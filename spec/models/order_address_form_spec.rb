@@ -2,12 +2,6 @@ require 'rails_helper'
 
 RSpec.describe OrderAddressForm, type: :model do
   before do
-    # 必要な関連データを作成
-    @category = Category.create!(name: 'Category 1')
-    @condition = Condition.create!(name: 'New')
-    @shipping_fee = ShippingFee.create!(name: 'Free')
-    @shipping_day = ShippingDay.create!(name: 'Same day')
-
     # テスト用のユーザーを作成
     @user = User.create!(
       nickname: 'testuser',
@@ -28,11 +22,11 @@ RSpec.describe OrderAddressForm, type: :model do
       name: 'Test Item',
       description: 'Test Description',
       price: 1000,                          # 価格（300以上9999999以下）
-      category_id: @category.id,            # 作成したカテゴリーIDを設定
-      condition_id: @condition.id,          # 作成した状態IDを設定
-      shipping_fee_id: @shipping_fee.id,    # 作成した送料負担IDを設定
+      category_id: 1,                       # カテゴリー（仮に1を設定）
+      condition_id: 1,                      # 商品の状態（仮に1を設定）
+      shipping_fee_id: 1,                   # 送料負担（仮に1を設定）
       prefecture_id: 3,                     # 都道府県（仮に3を設定）
-      shipping_day_id: @shipping_day.id,    # 作成した発送日IDを設定
+      shipping_day_id: 1,                   # 発送日（仮に1を設定）
       user_id: @user.id,
       image: fixture_file_upload(image, 'image/png')  # ダミー画像を設定
     )
