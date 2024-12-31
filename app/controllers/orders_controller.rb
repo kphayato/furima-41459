@@ -2,16 +2,16 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @product = Product.find(params[:product_id])
+    @item = Item.find(params[:item_id])  # item_idを使用するように修正
     @order = Order.new
   end
 
   def create
-    @product = Product.find(params[:product_id])
+    @item = Item.find(params[:item_id])  # item_idを使用するように修正
     @order = Order.new(order_params)
     @order.user = current_user
-    @order.product = @product
-    @order.price = @product.price
+    @order.item = @item  # ProductからItemに変更
+    @order.price = @item.price  # 商品価格を使用
 
     if @order.save
       ShippingAddress.create(shipping_address_params.merge(order_id: @order.id))
