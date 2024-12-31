@@ -54,9 +54,9 @@
 ### addresses テーブル
 
 | Column           | Type       | Options                        |
-|--------------    | ---------- | ------------------------------ |
+|----------------- | ---------- | ------------------------------ |
 | postal_code      | string     | null: false                    |
-| shopping_area_id | integer    | null: false                    |
+| prefecture_id    | integer    | null: false                    |
 | city             | string     | null: false                    |
 | street_address   | string     | null: false                    |
 | building_name    | string     |                                |
