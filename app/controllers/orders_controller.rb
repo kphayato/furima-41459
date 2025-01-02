@@ -17,6 +17,7 @@ class OrdersController < ApplicationController
       end
     else
       # バリデーションエラーがある場合
+      @order_address_form.prefecture_id = params.dig(:order_address_form, :shipping_address, :prefecture_id) || ''
       render :index, status: :unprocessable_entity
     end
   end
