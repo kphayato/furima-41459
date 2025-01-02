@@ -2,15 +2,21 @@ class OrdersController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    binding.pry # デバッグポイントの設置
     @item = Item.find(params[:item_id])
     @order_address_form = OrderAddressForm.new(flattened_order_params)
     @order_address_form.user_id = current_user.id
     @order_address_form.item_id = @item.id
 
-    if @order_address_form.save
-      redirect_to root_path, notice: '購入が完了しました！'
+    # バリデーションを確認
+    if @order_address_form.valid?
+      if @order_address_form.save
+        redirect_to root_path, notice: '購入が完了しました！'
+      else
+        # 保存に失敗した場合
+        render :index, status: :unprocessable_entity  
+      end
     else
+      # バリデーションエラーがある場合
       render :index, status: :unprocessable_entity
     end
   end
