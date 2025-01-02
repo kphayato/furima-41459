@@ -1,33 +1,33 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
 
-  def index
-    @item = Item.find(params[:item_id])  # item_idを使用するように修正
-    @order = Order.new
-  end
-
   def create
-    @item = Item.find(params[:item_id])  # item_idを使用するように修正
-    @order = Order.new(order_params)
-    @order.user = current_user
-    @order.item = @item  # ProductからItemに変更
-    @order.price = @item.price  # 商品価格を使用
+    binding.pry # デバッグポイントの設置
+    @item = Item.find(params[:item_id])
+    @order_address_form = OrderAddressForm.new(flattened_order_params)
+    @order_address_form.user_id = current_user.id
+    @order_address_form.item_id = @item.id
 
-    if @order.save
-      ShippingAddress.create(shipping_address_params.merge(order_id: @order.id))
+    if @order_address_form.save
       redirect_to root_path, notice: '購入が完了しました！'
     else
       render :index, status: :unprocessable_entity
     end
   end
 
-  private
-
-  def order_params
-    params.require(:order).permit(:price, :status)
+  def index
+    @item = Item.find(params[:item_id])
+    @order_address_form = OrderAddressForm.new(item_id: @item.id)
   end
 
-  def shipping_address_params
-    params.require(:shipping_address).permit(:postal_code, :prefecture, :city, :house_number, :building_name)
+  private
+
+  def flattened_order_params
+    # ストロングパラメータ設定
+    permitted_params = params.require(:order_address_form).permit(:token, shipping_address: [:postal_code, :prefecture_id, :city, :street_address, :building_name, :phone_number])
+
+    # shipping_addressの内容をフラット化して、必要な値とマージ
+    shipping_address_params = permitted_params.delete(:shipping_address)
+    permitted_params.merge(shipping_address_params) if shipping_address_params.present?
   end
 end
