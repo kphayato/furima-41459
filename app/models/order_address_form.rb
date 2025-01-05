@@ -1,40 +1,38 @@
 class OrderAddressForm
   include ActiveModel::Model
 
-  attr_accessor :user_id, :item_id, :postal_code, :prefecture_id, :city, :street_address, :building_name, :phone_number, :token, :expiry_date, :cvc
+  attr_accessor :user_id, :item_id, :postal_code, :prefecture_id, :city, :street_address, :building_name, :phone_number, :token
 
   # バリデーション
-  validates :user_id, :item_id, :postal_code, :prefecture_id, :city, :street_address, :phone_number, :token, presence: true
-  validates :expiry_date, :cvc, presence: true, if: :requires_card_info?
+  validates :user_id, :item_id, :postal_code, :prefecture_id, :city,
+            :street_address, :phone_number, :token, presence: true
+  validates :postal_code, presence: true, format: { with: /\A\d{3}-\d{4}\z/, message: 'is invalid' }
+  validates :phone_number, format: { with: /\A\d{10,11}\z/, message: 'is invalid. Enter 10-11 digits.' }
+  validates :prefecture_id, numericality: { other_than: 1, message: 'must be selected' }
 
-  # 保存メソッド
   def save
+    Rails.logger.debug "OrderAddressForm#save called with attributes: #{self.inspect}"
+
     return false unless valid?
 
-    # 1. 購入情報を保存 (Order)
-    order = Order.new(user_id: user_id, item_id: item_id)
-    return false unless order.save
+    ActiveRecord::Base.transaction do
+      order = Order.create!(user_id: user_id, item_id: item_id)
+      Rails.logger.debug "Order created: #{order.inspect}"
 
-    # 2. 発送先情報を保存 (ShippingAddress)
-    address = ShippingAddress.new(
-      postal_code: postal_code,
-      prefecture_id: prefecture_id,
-      city: city,
-      street_address: street_address,
-      building_name: building_name,
-      phone_number: phone_number,
-      order_id: order.id
-    )
-
-    return false unless address.save
+      ShippingAddress.create!(
+        postal_code: postal_code,
+        prefecture_id: prefecture_id,
+        city: city,
+        street_address: street_address,
+        building_name: building_name,
+        phone_number: phone_number,
+        order_id: order.id
+      )
+    end
 
     true
-  end
-
-  private
-
-  def requires_card_info?
-    # 条件に応じてカード情報が必要かを判定
-    true
+  rescue StandardError => e
+    Rails.logger.error "OrderAddressForm#save failed: #{e.message}"
+    false
   end
 end
