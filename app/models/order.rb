@@ -7,7 +7,6 @@ class Order < ApplicationRecord
   # バリデーション
   validates :item, presence: true
   validates :user, presence: true
-  validates :token, presence: true
 
   # Itemのpriceを取得するメソッド
   def price
