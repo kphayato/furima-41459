@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_if_seller, only: [:index, :create]
 
   def index
     @item = Item.find(params[:item_id])
@@ -12,50 +13,43 @@ class OrdersController < ApplicationController
     @order_address_form.user_id = current_user.id
     @order_address_form.item_id = @item.id
   
-    # デバッグ用のログ
-    Rails.logger.debug "PARAMS: #{params.inspect}"
-    Rails.logger.debug "OrderAddressForm#save called with: #{self.inspect}"
-  
-    # バリデーション確認
     if @order_address_form.valid?
-      Rails.logger.debug "VALIDATION PASSED"
       pay_item
-      if @order_address_form.save
-        Rails.logger.debug "SAVE PASSED"
-        redirect_to root_path, notice: '購入が完了しました！'
-      else
-        Rails.logger.debug "SAVE FAILED: #{@order_address_form.errors.full_messages}"
-        render :index, status: :unprocessable_entity
-      end
+      @order_address_form.save
+      redirect_to root_path, notice: "購入が完了しました"
     else
-      Rails.logger.debug "VALIDATION FAILED: #{@order_address_form.errors.full_messages}"
+      @item = Item.find(params[:item_id]) # 再度アイテム情報を取得
       render :index, status: :unprocessable_entity
     end
   end
 
   private
 
+  def redirect_if_seller
+    @item = Item.find(params[:item_id])
+    if current_user == @item.user
+      redirect_to root_path, alert: "自身が出品した商品の購入ページにはアクセスできません。"
+    end
+  end
+
   def pay_item
-    Payjp.api_key = "sk_test_a84f69bf77ecf501054cfc97"
-    charge = Payjp::Charge.create(
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp::Charge.create(
       amount: @item.price,
-      card: flattened_order_params[:token],
+      card: params[:token],
       currency: 'jpy'
     )
-    Rails.logger.debug "PAY.JP RESPONSE: #{charge.inspect}"
-  rescue Payjp::PayjpError => e
-    Rails.logger.error "PAY.JP ERROR: #{e.message}"
-    raise
   end
 
   def flattened_order_params
     params.require(:order_address_form).permit(
       :token,
-      shipping_address: [:postal_code, :prefecture_id, :city, :street_address, :building_name, :phone_number]
-    ).tap do |permitted|
-      shipping_address = permitted.delete(:shipping_address) || {}
-      permitted.merge!(shipping_address)
-      permitted[:token] = params[:token] if params[:token].present?
-    end
+      :postal_code,
+      :prefecture_id,
+      :city,
+      :street_address,
+      :building_name,
+      :phone_number
+    )
   end
 end

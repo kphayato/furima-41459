@@ -30,13 +30,12 @@
       </p>
     </div>
     <%# /支払額の表示 %>
-
     <%= form_with model: @order_address_form, url: item_orders_path(@item), local: true, html: { id: "charge-form" } do |f| %>
       <%= render 'shared/error_messages', model: @order_address_form %>
 
       <%# カード情報の入力 (一旦元に戻す) %>
       <div class='credit-card-form'>
-        <h1 class='info-input-headline'>
+        <h1 class='info-input-haedline'>
           クレジットカード情報入力
         </h1>
         <div class="form-group">
@@ -74,8 +73,8 @@
       <%# 配送先の入力 %>
       <%= f.fields_for :shipping_address do |shipping_form| %>
         <div class='shipping-address-form'>
-          <h1 class='info-input-headline'>
-            配送先入力
+          <h1 class='info-input-haedline'>
+              配送先入力
           </h1>
           <div class="form-group">
             <div class='form-text-wrap'>
@@ -89,7 +88,7 @@
               <label class="form-text">都道府県</label>
               <span class="indispensable">必須</span>
             </div>
-            <%= shipping_form.collection_select :prefecture_id, Prefecture.all, :id, :name, { prompt: '選択してください' }, { class:"select-box", id:"prefecture", selected: @order_address_form.prefecture_id } %>
+            <%= shipping_form.collection_select :prefecture_id, Prefecture.all, :id, :name, { prompt: '選択してください' }, { class: "select-box", id: "prefecture" } %>
           </div>
           <div class="form-group">
             <div class='form-text-wrap'>

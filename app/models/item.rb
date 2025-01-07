@@ -1,7 +1,7 @@
 class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image
-  has_many :orders
+  has_many :order
 
   # ActiveHash関連
   extend ActiveHash::Associations::ActiveRecordExtensions
@@ -26,9 +26,7 @@ class Item < ApplicationRecord
   validates :category_id, :condition_id, :shipping_fee_id, :prefecture_id, :shipping_day_id,
             numericality: { other_than: 1, message: "can't be blank" }
 
-  # sold_out? メソッドを仮で追加
-  # 例: 売却済みの商品は価格がゼロの場合
   def sold_out?
-    false 
+    order.present?
   end
 end

@@ -32,6 +32,10 @@ RSpec.describe OrderAddressForm, type: :model do
       @order_form.phone_number = '09012345678'
       expect(@order_form).to be_valid
     end
+    it 'tokenがあれば登録できる' do
+      @order_form.token = 'tok_test123'
+      expect(@order_form).to be_valid
+    end
   end
 
   context '商品購入がうまくいかないとき' do
