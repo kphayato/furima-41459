@@ -1,4 +1,5 @@
 <%= render "shared/second-header" %>
+<%= include_gon %>
 
 <div class='transaction-contents'>
   <div class='transaction-main'>
@@ -6,6 +7,7 @@
       購入内容の確認
     </h1>
     <%# 購入内容の表示 %>
+    <%= include_gon %>
     <div class='buy-item-info'>
       <%= image_tag @item.image, class: 'buy-item-img' %>
       <div class='buy-item-right-content'>
@@ -35,7 +37,7 @@
 
       <%# カード情報の入力 (一旦元に戻す) %>
       <div class='credit-card-form'>
-        <h1 class='info-input-haedline'>
+        <h1 class='info-input-headline'>
           クレジットカード情報入力
         </h1>
         <div class="form-group">
@@ -73,7 +75,7 @@
       <%# 配送先の入力 %>
       <%= f.fields_for :shipping_address do |shipping_form| %>
         <div class='shipping-address-form'>
-          <h1 class='info-input-haedline'>
+          <h1 class='info-input-headline'>
               配送先入力
           </h1>
           <div class="form-group">

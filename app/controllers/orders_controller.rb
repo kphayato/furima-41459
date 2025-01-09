@@ -3,11 +3,13 @@ class OrdersController < ApplicationController
   before_action :redirect_if_seller, only: [:index, :create]
 
   def index
+    gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     @item = Item.find(params[:item_id])
     @order_address_form = OrderAddressForm.new(item_id: @item.id)
   end
 
   def create
+    gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     @item = Item.find(params[:item_id])
     @order_address_form = OrderAddressForm.new(flattened_order_params)
     @order_address_form.user_id = current_user.id
@@ -18,7 +20,6 @@ class OrdersController < ApplicationController
       @order_address_form.save
       redirect_to root_path, notice: "購入が完了しました"
     else
-      @item = Item.find(params[:item_id]) # 再度アイテム情報を取得
       render :index, status: :unprocessable_entity
     end
   end
@@ -27,9 +28,7 @@ class OrdersController < ApplicationController
 
   def redirect_if_seller
     @item = Item.find(params[:item_id])
-    if current_user == @item.user
-      redirect_to root_path, alert: "自身が出品した商品の購入ページにはアクセスできません。"
-    end
+    redirect_to root_path, alert: "自身が出品した商品の購入ページにはアクセスできません。" if current_user == @item.user
   end
 
   def pay_item
@@ -42,14 +41,19 @@ class OrdersController < ApplicationController
   end
 
   def flattened_order_params
-    params.require(:order_address_form).permit(
-      :token,
-      :postal_code,
-      :prefecture_id,
-      :city,
-      :street_address,
-      :building_name,
-      :phone_number
-    )
+    shipping_address = params[:order_address_form][:shipping_address]
+    
+    # shipping_addressの中身を展開し、他のパラメータと統合
+    {
+      token: params[:token],
+      user_id: current_user.id,
+      item_id: params[:item_id],
+      postal_code: shipping_address[:postal_code],
+      prefecture_id: shipping_address[:prefecture_id],
+      city: shipping_address[:city],
+      street_address: shipping_address[:street_address],
+      building_name: shipping_address[:building_name],
+      phone_number: shipping_address[:phone_number]
+    }
   end
 end
