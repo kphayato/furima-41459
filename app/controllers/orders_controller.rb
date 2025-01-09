@@ -28,7 +28,10 @@ class OrdersController < ApplicationController
 
   def redirect_if_seller
     @item = Item.find(params[:item_id])
-    redirect_to root_path, alert: "自身が出品した商品の購入ページにはアクセスできません。" if current_user == @item.user
+    
+    if current_user == @item.user || @item.sold_out?
+      redirect_to root_path, alert: "購入できない商品です。"
+    end
   end
 
   def pay_item
