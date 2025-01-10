@@ -1,16 +1,15 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_item, only: [:index, :create]
   before_action :redirect_if_seller, only: [:index, :create]
 
   def index
     gon.public_key = ENV['PAYJP_PUBLIC_KEY']
-    @item = Item.find(params[:item_id])
     @order_address_form = OrderAddressForm.new(item_id: @item.id)
   end
 
   def create
     gon.public_key = ENV['PAYJP_PUBLIC_KEY']
-    @item = Item.find(params[:item_id])
     @order_address_form = OrderAddressForm.new(flattened_order_params)
     @order_address_form.user_id = current_user.id
     @order_address_form.item_id = @item.id
@@ -26,14 +25,19 @@ class OrdersController < ApplicationController
 
   private
 
-  def redirect_if_seller
+  # @item を設定するメソッド
+  def set_item
     @item = Item.find(params[:item_id])
-    
+  end
+
+  # 出品者または売却済み商品の場合はトップページにリダイレクト
+  def redirect_if_seller
     if current_user == @item.user || @item.sold_out?
       redirect_to root_path, alert: "購入できない商品です。"
     end
   end
 
+  # 決済処理
   def pay_item
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
@@ -43,20 +47,16 @@ class OrdersController < ApplicationController
     )
   end
 
+  # ストロングパラメータ
   def flattened_order_params
-    shipping_address = params[:order_address_form][:shipping_address]
-    
-    # shipping_addressの中身を展開し、他のパラメータと統合
-    {
-      token: params[:token],
-      user_id: current_user.id,
-      item_id: params[:item_id],
-      postal_code: shipping_address[:postal_code],
-      prefecture_id: shipping_address[:prefecture_id],
-      city: shipping_address[:city],
-      street_address: shipping_address[:street_address],
-      building_name: shipping_address[:building_name],
-      phone_number: shipping_address[:phone_number]
-    }
+    params.require(:order_address_form).permit(
+      :token,
+      :postal_code,
+      :prefecture_id,
+      :city,
+      :street_address,
+      :building_name,
+      :phone_number
+    ).merge(user_id: current_user.id, item_id: params[:item_id])
   end
 end

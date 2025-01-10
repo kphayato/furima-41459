@@ -3,12 +3,16 @@ class OrderAddressForm
 
   attr_accessor :user_id, :item_id, :postal_code, :prefecture_id, :city, :street_address, :building_name, :phone_number, :token
 
-  # バリデーション
-  validates :user_id, :item_id, :postal_code, :prefecture_id, :city,
-            :street_address, :phone_number, :token, presence: true
-  validates :postal_code, presence: true, format: { with: /\A\d{3}-\d{4}\z/, message: 'is invalid' }
-  validates :phone_number, format: { with: /\A\d{10,11}\z/, message: 'is invalid. Enter 10-11 digits.' }
-  validates :prefecture_id, numericality: { other_than: 1, message: 'must be selected' }
+  with_options presence: true do
+    validates :user_id
+    validates :item_id
+    validates :postal_code, format: { with: /\A\d{3}-\d{4}\z/, message: 'is invalid. Include hyphen(-).' }
+    validates :prefecture_id, numericality: { other_than: 1, message: 'must be selected' }
+    validates :city
+    validates :street_address
+    validates :phone_number, format: { with: /\A\d{10,11}\z/, message: 'is invalid. Enter 10-11 digits.' }
+    validates :token
+  end
 
   def save
     # Order の作成
