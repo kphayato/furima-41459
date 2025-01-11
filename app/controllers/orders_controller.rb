@@ -47,16 +47,19 @@ class OrdersController < ApplicationController
     )
   end
 
-  # ストロングパラメータ
   def flattened_order_params
-    params.require(:order_address_form).permit(
-      :token,
+    shipping_params = params.require(:order_address_form).require(:shipping_address).permit(
       :postal_code,
       :prefecture_id,
       :city,
       :street_address,
       :building_name,
       :phone_number
-    ).merge(user_id: current_user.id, item_id: params[:item_id])
+    )
+    shipping_params.merge(
+      user_id: current_user.id,
+      item_id: params[:item_id],
+      token: params[:token]
+    )
   end
 end
