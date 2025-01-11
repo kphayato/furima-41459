@@ -51,7 +51,7 @@
 
 
 
-### addresses テーブル
+### Shipping_addresses  テーブル
 
 | Column           | Type       | Options                        |
 |----------------- | ---------- | ------------------------------ |
