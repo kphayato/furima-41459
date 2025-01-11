@@ -25,10 +25,10 @@
 | description            | text       | null: false                    |
 | price                  | integer    | null: false                    |
 | category_id            | integer    | null: false                    |
-| shopping_area_id       | integer    | null: false                    |
+| prefecture_id          | integer    | null: false                    |
 | condition_id           | integer    | null: false                    |
-| shopping_fee_status_id | integer    | null: false                    |
-| shopping_day_id        | integer    | null: false                    |
+| shipping_fee_id        | integer    | null: false                    |
+| shipping_day_id        | integer    | null: false                    |
 | user                   | references | null: false, foreign_key: true |
 
 # Association
@@ -47,7 +47,7 @@
 # Association
 •	belongs_to :user
 •	belongs_to :item
-•	has_one :address
+•	has_one :shipping_address
 
 
 

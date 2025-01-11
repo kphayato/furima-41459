@@ -37,25 +37,19 @@ RSpec.describe Item, type: :model do
       it '価格が数値でない場合は登録できない' do
         @item.price = 'abc'
         @item.valid?
-        expect(@item.errors.full_messages).to include(
-          'Price must be greater than or equal to 300 and less than or equal to 9,999,999'
-        )
+        expect(@item.errors.full_messages).to include('Price is not a number')
       end
 
       it '価格が300未満では登録できない' do
         @item.price = 100
         @item.valid?
-        expect(@item.errors.full_messages).to include(
-          'Price must be greater than or equal to 300 and less than or equal to 9,999,999'
-        )
+        expect(@item.errors.full_messages).to include('Price must be greater than or equal to 300')
       end
 
       it '価格が9,999,999より大きいと登録できない' do
         @item.price = 10_000_000
         @item.valid?
-        expect(@item.errors.full_messages).to include(
-          'Price must be greater than or equal to 300 and less than or equal to 9,999,999'
-        )
+        expect(@item.errors.full_messages).to include('Price must be less than or equal to 9999999')
       end
 
       # カテゴリー
@@ -102,9 +96,9 @@ RSpec.describe Item, type: :model do
 
       # ユーザーが紐づいていない場合
       it 'ユーザーが紐づいていない場合は登録できない' do
-        @item.user = nil # ユーザーを紐づけずにテスト
+        @item.user = nil
         @item.valid?
-        expect(@item.errors.full_messages).to include('User must exist') # エラーメッセージを確認
+        expect(@item.errors.full_messages).to include('User must exist')
       end
     end
   end

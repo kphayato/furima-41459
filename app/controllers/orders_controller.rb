@@ -47,19 +47,13 @@ class OrdersController < ApplicationController
     )
   end
 
-  def flattened_order_params
-    shipping_params = params.require(:order_address_form).require(:shipping_address).permit(
+  params.require(:order_address_form).permit(
       :postal_code,
       :prefecture_id,
       :city,
       :street_address,
       :building_name,
       :phone_number
-    )
-    shipping_params.merge(
-      user_id: current_user.id,
-      item_id: params[:item_id],
-      token: params[:token]
-    )
+    ).merge(user_id: current_user.id, item_id: params[:item_id],token: params[:token])
   end
 end

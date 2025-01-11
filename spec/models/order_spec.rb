@@ -42,9 +42,45 @@ RSpec.describe OrderAddressForm, type: :model do
       @order_form.valid?
       expect(@order_form.errors.full_messages).to include('Postal code is invalid. Include hyphen(-).')
     end
+    
+    it 'prefecture_idが未選択では購入できない' do
+      @order_form.prefecture_id = 1
+      @order_form.valid?
+      expect(@order_form.errors.full_messages).to include("Prefecture must be selected")
+    end
+
+    it 'cityが空では購入できない' do
+      @order_form.city = nil
+      @order_form.valid?
+      expect(@order_form.errors.full_messages).to include("City can't be blank")
+    end
+
+    it 'street_addressが空では購入できない' do
+      @order_form.street_address = nil
+      @order_form.valid?
+      expect(@order_form.errors.full_messages).to include("Street address can't be blank")
+    end
+
+    it 'phone_numberが空では購入できない' do
+      @order_form.phone_number = nil
+      @order_form.valid?
+      expect(@order_form.errors.full_messages).to include("Phone number can't be blank")
+    end
 
     it 'phone_numberが12桁以上では購入できない' do
       @order_form.phone_number = '123456789012'
+      @order_form.valid?
+      expect(@order_form.errors.full_messages).to include('Phone number is invalid. Enter 10-11 digits.')
+    end
+
+    it 'phone_numberが9桁以下では購入できない' do
+      @order_form.phone_number = '123456789'
+      @order_form.valid?
+      expect(@order_form.errors.full_messages).to include('Phone number is invalid. Enter 10-11 digits.')
+    end
+
+    it 'phone_numberに数字以外が含まれる場合は購入できない' do
+      @order_form.phone_number = '090-1234-5678'
       @order_form.valid?
       expect(@order_form.errors.full_messages).to include('Phone number is invalid. Enter 10-11 digits.')
     end
