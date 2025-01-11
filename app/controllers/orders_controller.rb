@@ -25,12 +25,11 @@ class OrdersController < ApplicationController
 
   private
 
-  # @item を設定するメソッド
   def set_item
     @item = Item.find(params[:item_id])
   end
 
-  # 出品者または売却済み商品の場合はトップページにリダイレクト
+  
   def redirect_if_seller
     if current_user == @item.user || @item.sold_out?
       redirect_to root_path, alert: "購入できない商品です。"
@@ -47,13 +46,15 @@ class OrdersController < ApplicationController
     )
   end
 
-  params.require(:order_address_form).permit(
+  def flattened_order_params
+    shipping_params = params.require(:order_address_form).require(:shipping_address).permit(
       :postal_code,
       :prefecture_id,
       :city,
       :street_address,
       :building_name,
       :phone_number
-    ).merge(user_id: current_user.id, item_id: params[:item_id],token: params[:token])
+    )
+    shipping_params.merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
   end
 end
