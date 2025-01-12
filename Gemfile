@@ -15,6 +15,9 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 gem "devise"
 
+# 日本語ロケールが不要なら削除
+# gem "rails-i18n"
+
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem "rspec-rails"
@@ -40,6 +43,4 @@ group :production do
 end
 
 gem 'active_hash'
-gem 'pry-rails'
-gem 'payjp'
-gem 'gon'
+
