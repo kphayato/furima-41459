@@ -35,7 +35,7 @@
     <%= form_with model: @order_address_form, url: item_orders_path(@item), local: true, html: { id: "charge-form" } do |f| %>
       <%= render 'shared/error_messages', model: @order_address_form %>
 
-      <%# カード情報の入力 (一旦元に戻す) %>
+      <%# カード情報の入力 %>
       <div class='credit-card-form'>
         <h1 class='info-input-headline'>
           クレジットカード情報入力
@@ -83,42 +83,44 @@
               <label class="form-text">郵便番号</label>
               <span class="indispensable">必須</span>
             </div>
-            <%= shipping_form.text_field :postal_code, value: @order_address_form.postal_code, class:"input-default", id:"postal-code", placeholder:"例）123-4567", maxlength:"8" %>
+            <%= shipping_form.text_field :postal_code, value: @order_address_form.postal_code, class: "input-default", id: "postal-code", placeholder: "例）123-4567", maxlength: "8" %>
           </div>
           <div class="form-group">
             <div class='form-text-wrap'>
               <label class="form-text">都道府県</label>
               <span class="indispensable">必須</span>
             </div>
-            <%= shipping_form.collection_select :prefecture_id, Prefecture.all, :id, :name, { prompt: '選択してください' }, { class: "select-box", id: "prefecture" } %>
+            <%= shipping_form.collection_select :prefecture_id, Prefecture.all, :id, :name,
+              { prompt: '選択してください', selected: @order_address_form.prefecture_id },
+              { class: "select-box", id: "prefecture" } %>
           </div>
           <div class="form-group">
             <div class='form-text-wrap'>
               <label class="form-text">市区町村</label>
               <span class="indispensable">必須</span>
             </div>
-            <%= shipping_form.text_field :city, value: @order_address_form.city, class:"input-default", id:"city", placeholder:"例）横浜市緑区" %>
+            <%= shipping_form.text_field :city, value: @order_address_form.city, class: "input-default", id: "city", placeholder: "例）横浜市緑区" %>
           </div>
           <div class="form-group">
             <div class='form-text-wrap'>
               <label class="form-text">番地</label>
               <span class="indispensable">必須</span>
             </div>
-            <%= shipping_form.text_field :street_address, value: @order_address_form.street_address, class:"input-default", id:"addresses", placeholder:"例）青山1-1-1" %>
+            <%= shipping_form.text_field :street_address, value: @order_address_form.street_address, class: "input-default", id: "addresses", placeholder: "例）青山1-1-1" %>
           </div>
           <div class="form-group">
             <div class='form-text-wrap'>
               <label class="form-text">建物名</label>
               <span class="form-any">任意</span>
             </div>
-            <%= shipping_form.text_field :building_name, value: @order_address_form.building_name, class:"input-default", id:"building", placeholder:"例）柳ビル103" %>
+            <%= shipping_form.text_field :building_name, value: @order_address_form.building_name, class: "input-default", id: "building", placeholder: "例）柳ビル103" %>
           </div>
           <div class="form-group">
             <div class='form-text-wrap'>
               <label class="form-text">電話番号</label>
               <span class="indispensable">必須</span>
             </div>
-            <%= shipping_form.text_field :phone_number, value: @order_address_form.phone_number, class:"input-default", id:"phone-number", placeholder:"例）09012345678", maxlength:"11" %>
+            <%= shipping_form.text_field :phone_number, value: @order_address_form.phone_number, class: "input-default", id: "phone-number", placeholder: "例）09012345678", maxlength: "11" %>
           </div>
         </div>
       <% end %>

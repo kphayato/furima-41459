@@ -19,6 +19,7 @@ class OrdersController < ApplicationController
       @order_address_form.save
       redirect_to root_path, notice: "購入が完了しました"
     else
+      # エラー時に入力値を保持する
       render :index, status: :unprocessable_entity
     end
   end
@@ -53,7 +54,7 @@ class OrdersController < ApplicationController
   end
 
   def flattened_order_params
-    params.require(:order_address_form).permit(
+    params.require(:order_address_form).require(:shipping_address).permit(
       :postal_code,
       :prefecture_id,
       :city,
@@ -62,4 +63,4 @@ class OrdersController < ApplicationController
       :phone_number
     ).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
   end
-end
+end 
