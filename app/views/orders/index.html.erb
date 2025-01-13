@@ -91,8 +91,8 @@
               <span class="indispensable">必須</span>
             </div>
             <%= shipping_form.collection_select :prefecture_id, Prefecture.all, :id, :name,
-              { prompt: '選択してください', selected: @order_address_form.prefecture_id },
-              { class: "select-box", id: "prefecture" } %>
+            { selected: @order_address_form.prefecture_id },
+            { class: "select-box", id: "prefecture" } %>
           </div>
           <div class="form-group">
             <div class='form-text-wrap'>
